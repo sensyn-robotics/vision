@@ -55,9 +55,8 @@ class GeneralizedRCNN(nn.Module):
                 like `scores`, `labels` and `mask` (for Mask R-CNN models).
 
         """
-        if self.training and targets is None:
-            raise ValueError("In training mode, targets should be passed")
-        if self.training:
+
+        if targets is not None:
             assert targets is not None
             for target in targets:
                 boxes = target["boxes"]
@@ -109,4 +108,4 @@ class GeneralizedRCNN(nn.Module):
                 self._has_warned = True
             return (losses, detections)
         else:
-            return self.eager_outputs(losses, detections)
+            return losses, detections
